@@ -7,26 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     protected $fillable = [
-        'executer',
+        'category_id',
         'title',
         'description',
+        'performer',
         'file',
-        'deadline'
+        'deadline',
     ];
 
-    public function catagories()
+    public function category()
     {
-        return $this->belongsTo(Category::class, 'id', 'category_id');
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    public function regionTasks()
+    public function regions()
     {
-        return $this->hasMany(RegionTask::class, 'task_id');
+        return $this->belongsToMany(RegionTask::class, 'region_tasks', 'task_id', 'region_id');
     }
 
     public function responses()
     {
-        return $this->hasMany(Response::class, 'id', 'task_id');
+        return $this->hasMany(Response::class, 'task_id', 'id');
     }
-
 }
+

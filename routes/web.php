@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,3 +24,8 @@ Route::get('/region', [RegionController::class, 'index'])->name('region.page');
 Route::post('/region', [RegionController::class, 'store'])->name('region.store');
 Route::delete('/region/{region}', [RegionController::class, 'destroy'])->name('region.delete');
 Route::put('/region/{region}', [RegionController::class, 'update'])->name('region.update');
+
+Route::get('/task', [TaskController::class, 'index'])->name('task.page');
+Route::post('/task', [TaskController::class, 'store'])->name('task.store');
+Route::delete('/task/{task}', [TaskController::class, 'destroy'])->name('task.delete');
+Route::put('/task/{task}', [TaskController::class, 'update'])->name('task.update');

@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class RegionTask extends Model
 {
     protected $fillable = [
-        'status'
+        'region_id',
+        'task_id'
     ];
 
-    public function regions()
+    public function region()
     {
         return $this->belongsTo(Region::class, 'region_id', 'id');
     }
 
     public function tasks()
     {
-        return $this->belongsTo(Task::class, 'task_id', 'id');
+        return $this->belongsToMany(Task::class, 'region_tasks', 'region_id', 'task_id');
     }
-}   
+}

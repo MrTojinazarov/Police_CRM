@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
         Category::create($data);
         
-        return redirect()->route('category.page')->with('success', 'User muvaffaqiyatli yaratildi');
+        return redirect()->route('category.page')->with('success', 'Category muvaffaqiyatli yaratildi');
     }
 
     public function update(Request $request, Category $category)
@@ -36,13 +36,13 @@ class CategoryController extends Controller
 
         $category->save();
     
-        return redirect()->route('category.page')->with('success', 'User updated successfully');
+        return redirect()->route('category.page')->with('success', 'Category updated successfully');
     }
     
 
     public function destroy(Category $category)
     {
         $category->delete(); 
-        return redirect()->route('category.page')->with('success', 'User muvaffaqiyatli o\'chirildi');
+        return redirect()->route('category.page')->with('success', 'Category muvaffaqiyatli o\'chirildi');
     }
 }

@@ -25,7 +25,7 @@ class RegionController extends Controller
 
         Region::create($data);
         
-        return redirect()->route('region.page')->with('success', 'User muvaffaqiyatli yaratildi');
+        return redirect()->route('region.page')->with('success', 'Region muvaffaqiyatli yaratildi');
     }
 
     public function update(Request $request, Region $region)
@@ -40,13 +40,13 @@ class RegionController extends Controller
         $region->user_id = $request->input('user_id');
         $region->save();
     
-        return redirect()->route('region.page')->with('success', 'User updated successfully');
+        return redirect()->route('region.page')->with('success', 'Region updated successfully');
     }
     
 
     public function destroy(Region $region)
     {
         $region->delete(); 
-        return redirect()->route('region.page')->with('success', 'User muvaffaqiyatli o\'chirildi');
+        return redirect()->route('region.page')->with('success', 'Region muvaffaqiyatli o\'chirildi');
     }
 }

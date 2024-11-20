@@ -16,13 +16,9 @@ class Region extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function tasks()
-    {
-        return $this->hasMany(RegionTask::class, 'id', 'region_id');
-    }
-
     public function responses()
     {
         return $this->hasMany(Response::class, 'id', 'region_id');
     }
+
 }
