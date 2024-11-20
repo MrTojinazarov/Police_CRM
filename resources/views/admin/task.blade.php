@@ -80,10 +80,10 @@
                                 <div class="mb-3">
                                     <div class="form-group">
                                         <label for="select2" class="form-label">Multiple</label>
-                                        <select class="select2" name="region_id[]" multiple="multiple" data-placeholder="Select a State"
-                                            style="width: 100%;" id="select2">
+                                        <select class="select2" name="region_id[]" multiple="multiple"
+                                            data-placeholder="Select a State" style="width: 100%;" id="select2">
                                             @foreach ($regions as $region)
-                                                <option value="{{$region->id}}">{{$region->name}}</option>
+                                                <option value="{{ $region->id }}">{{ $region->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -101,14 +101,16 @@
             <div class="mt-3">
                 <table class="table table-hover table-bordered">
                     <tr>
-                        <th style="width: 20px;">№</th>
-                        <th style="width: 150px;">Category</th>
+                        <th style="width: 20px;">ID</th>
+                        <th style="width: 120px;">Region</th>
+                        <th style="width: 150px;">Performer</th>
                         <th style="width: 150px;">Title</th>
                         <th style="width: 150px;">Description</th>
-                        <th style="width: 150px;">Performer</th>
-                        <th style="width: 150px;">File</th>
-                        <th style="width: 150px;">Deadline</th>
-                        <th style="width: 200px;">Actions</th>
+                        <th style="width: 200px;">File</th>
+                        <th style="width: 120px">Time sent</th>
+                        <th style="width: 120px;">Deadline</th>
+                        <th style="width: 100px">Sitatus</th>
+                        <th style="width: 100px;">Actions</th>
                     </tr>
                     @foreach ($models as $model)
                         <tr>
@@ -147,17 +149,18 @@
                                 <span>No file uploaded</span>
                             @endif
                         </td>
-
+                        <td>{{ $model->created_at }}</td>
                         <td>{{ $model->deadline }}</td>
+                        <td></td>
                         <td>
-                            <div class="d-flex">
+                            <div>
                                 <form action="{{ route('task.delete', $model->id) }}" method="POST" class="me-2">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-primary"
                                         style="width: 80px; font-size:18px;">Delete</button>
                                 </form>
-                                <button type="button" class="btn btn-warning" style="width: 80px; font-size:18px;"
+                                <button type="button" class="btn btn-warning mt-1" style="width: 80px; font-size:18px;"
                                     data-bs-toggle="modal" data-bs-target="#exampleModal{{ $model->id }}">
                                     Update
                                 </button>
@@ -172,7 +175,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <form method="post" action="{{ route('task.update', $model->id) }}">
+                                        <form method="post" action="{{ route('task.update', $model->id) }}" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
@@ -206,18 +209,60 @@
                                                     <label for="file" class="form-label">File</label>
                                                     <input type="file" name="file" id="file"
                                                         class="form-control">
+                                                    <br>
+                                                    @if ($model->file)
+                                                        @php
+                                                            $fileExtension = pathinfo($model->file, PATHINFO_EXTENSION);
+                                                            $filePath = $model->file;
+                                                        @endphp
+
+                                                        @if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg']))
+                                                            <img src="{{ asset($filePath) }}" alt="File Image"
+                                                                style="max-width: 200px; height: auto;">
+                                                        @elseif (in_array($fileExtension, ['MP4', 'mp4', 'mov', 'avi', 'mkv']))
+                                                            <video controls style="max-width: 200px;">
+                                                                <source src="{{ asset($filePath) }}"
+                                                                    type="video/{{ $fileExtension }}">
+                                                            </video>
+                                                        @elseif (in_array($fileExtension, ['pdf', 'doc', 'docx', 'xls', 'xlsx']))
+                                                            <a href="{{ asset($filePath) }}" target="_blank">Download
+                                                                File</a>
+                                                        @else
+                                                            <span>Unknown file type</span>
+                                                        @endif
+                                                    @else
+                                                        <span>No file uploaded</span>
+                                                    @endif
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="deadline" class="form-label">Deadline</label>
-                                                    <input type="datetime" name="deadline" id="deadline"
+                                                    <input type="date" name="deadline" id="deadline"
                                                         class="form-control" value="{{ $model->deadline }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="form-group">
+                                                        <label for="select22" class="form-label">Multiple</label>
+                                                        <select class="select2" name="region_id[]"
+                                                            multiple="multiple" data-placeholder="Select a State"
+                                                            style="width: 100%;" id="select22">
+                                                            @foreach ($regions as $region)
+                                                                <option value="{{ $region->id }}"
+                                                                    @foreach ($regiontasks as $regiontask)
+                                                                    @if ($model->id == $regiontask->task_id && $region->id == $regiontask->region_id)
+                                                                        selected
+                                                                    @endif @endforeach>
+                                                                    {{ $region->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-primary"
-                                                    style="width: 70px;">Save</button>
+                                                    style="width: 70px;">Update</button>
                                             </div>
                                         </form>
                                     </div>

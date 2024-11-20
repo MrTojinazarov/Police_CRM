@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Region;
+use App\Models\RegionTask;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -14,9 +15,10 @@ class TaskController extends Controller
         $models = Task::orderBy('id', 'ASC')->paginate(10);
         $categories = Category::all();
         $regions = Region::all();
-        return view('admin.task', ['models' => $models, 'categories' => $categories, 'regions' => $regions]);
-    }
+        $regionTasks = RegionTask::all();
 
+        return view('admin.task', ['models' => $models, 'categories' => $categories, 'regions' => $regions, 'regiontasks' => $regionTasks]);
+    }
 
     public function store(Request $request)
     {
@@ -60,8 +62,7 @@ class TaskController extends Controller
             'file' => $filePath,
             'deadline' => $request->deadline,
         ]);
-
-        $task->regions()->attach($request->region_id);
+        $task->regiontasks()->attach($request->region_id);
 
         return redirect()->back()->with('success', 'Task successfully created!');
     }
@@ -69,10 +70,49 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task)
     {
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'title' => 'required|string|max:255', 
+            'description' => 'required|string|max:1000', 
+            'performer' => 'required|string|max:255',
+            'deadline' => 'required|date',
+            'file' => 'file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,pdf,docx|max:20480',
+            'region_id' => 'required|array', 
+            'region_id.*' => 'exists:regions,id',
+        ]);
 
-        //
-
-        return redirect()->route('task.page')->with('success', 'Task updated successfully');
+        $filePath = $task->file;
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            
+            if (in_array($file->extension(), ['jpeg', 'png', 'jpg', 'gif'])) {
+                $folder = 'images';
+            } elseif (in_array($file->extension(), ['mp4', 'mov', 'avi'])) {
+                $folder = 'videos';
+            } else {
+                $folder = 'files';
+            }
+    
+            $fileName = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+    
+            $destinationPath = public_path('uploads/' . $folder);
+            $file->move($destinationPath, $fileName);
+    
+            $filePath = 'uploads/' . $folder . '/' . $fileName;
+        }
+    
+        $task->update([
+            'category_id' => $request->category_id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'performer' => $request->performer,
+            'file' => $filePath, 
+            'deadline' => $request->deadline,
+        ]);
+    
+        $task->regions()->sync($request->region_id);
+    
+        return redirect()->route('task.page')->with('success', 'Task updated successfully!');
     }
 
 

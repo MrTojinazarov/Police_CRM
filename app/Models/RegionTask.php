@@ -11,7 +11,7 @@ class RegionTask extends Model
         'task_id'
     ];
 
-    public function region()
+    public function regions()
     {
         return $this->belongsTo(Region::class, 'region_id', 'id');
     }
@@ -20,4 +20,5 @@ class RegionTask extends Model
     {
         return $this->belongsToMany(Task::class, 'region_tasks', 'region_id', 'task_id');
     }
+    
 }

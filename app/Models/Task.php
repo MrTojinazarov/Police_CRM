@@ -15,15 +15,15 @@ class Task extends Model
         'deadline',
     ];
 
-    public function category()
+    public function categories()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    public function regions()
+    public function regiontasks()
     {
         return $this->belongsToMany(RegionTask::class, 'region_tasks', 'task_id', 'region_id');
-    }
+    }    
 
     public function responses()
     {
