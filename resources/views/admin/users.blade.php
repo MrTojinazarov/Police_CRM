@@ -123,11 +123,6 @@
                                                             id="email1" value="{{ $model->email }}">
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="role" class="form-label">Role (Optional)</label>
-                                                        <input type="text" name="role" class="form-control"
-                                                            id="role" value="{{ $model->role }}">
-                                                    </div>
-                                                    <div class="mb-3">
                                                         <label for="password1" class="form-label">New password
                                                             (Optional)</label>
                                                         <input type="password" name="password" class="form-control"

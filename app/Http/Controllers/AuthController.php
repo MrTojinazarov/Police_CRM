@@ -42,10 +42,7 @@ class AuthController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
     
-        if ($request->has('role') && $request->role) {
-            $user->role = $request->input('role');
-        }
-    
+
         if ($request->has('password') && $request->password) {
             $user->password = bcrypt($request->input('password'));
         }
