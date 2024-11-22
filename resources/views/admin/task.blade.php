@@ -200,11 +200,6 @@
                                         value="{{ old('title') }}">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Description</label>
-                                    <input type="text" name="description" class="form-control" id="description"
-                                        value="{{ old('description') }}">
-                                </div>
-                                <div class="mb-3">
                                     <label for="performer" class="form-label">Performer</label>
                                     <input type="text" name="performer" class="form-control" id="performer"
                                         value="{{ old('performer') }}">
@@ -267,7 +262,6 @@
                         <th style="width: 120px;">Region</th>
                         <th style="width: 150px;">Performer</th>
                         <th style="width: 150px;">Title</th>
-                        <th style="width: 150px;">Description</th>
                         <th style="width: 200px;">File</th>
                         <th style="width: 120px">Time sent</th>
                         <th style="width: 120px;">Deadline</th>
@@ -275,18 +269,16 @@
                         <th style="width: 100px;">Actions</th>
                     </tr>
                     @foreach ($models as $model)
-                        @foreach ($model->regions as $region)
                             <tr>
-                                <td>{{ $model->regiontasks->where('region_id', $region->id)->first()->id }}</td>
-                                <td>{{ $region->name }}</td>
-                                <td>{{ $model->performer }}</td>
-                                <td>{{ $model->title }}</td>
-                                <td>{{ $model->description }}</td>
+                                <td>{{ $model->id }}</td>
+                                <td>{{ $model->regions->name }}</td>
+                                <td>{{ $model->tasks->performer }}</td>
+                                <td>{{ $model->tasks->title }}</td>
                                 <td>
-                                    @if ($model->file)
+                                    @if ($model->tasks->file)
                                         @php
-                                            $fileExtension = pathinfo($model->file, PATHINFO_EXTENSION);
-                                            $filePath = $model->file;
+                                            $fileExtension = pathinfo($model->tasks->file, PATHINFO_EXTENSION);
+                                            $filePath = $model->tasks->file;
                                         @endphp
 
                                         @if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg']))
@@ -306,36 +298,41 @@
                                     @endif
                                 </td>
                                 <td>{{ $model->created_at }}</td>
-                                <td>{{ $model->regiontasks->where('region_id', $region->id)->first()->deadline }}</td>
+                                <td>{{ $model->deadline }}</td>
                                 <td>
                                     @php
-                                        $status = $model->regiontasks->where('region_id', $region->id)->first()->status;
-                                        $buttonClass = ''; // Default class
+                                        $status = $model->status;
+                                        $buttonClass = '';
                                 
                                         switch ($status) {
-                                            case 'sent':
-                                                $buttonClass = 'btn-outline-primary'; // Ko'k rang
+                                            case 1:
+                                                $buttonClass = 'btn-outline-primary'; 
+                                                $text = 'sent';
                                                 break;
-                                            case 'opened':
-                                                $buttonClass = 'btn-outline-success'; // Yashil rang
+                                            case 2:
+                                                $buttonClass = 'btn-outline-success';
+                                                $text = 'opened';
                                                 break;
-                                            case 'answered':
-                                                $buttonClass = 'btn-outline-warning'; // Sariq rang
+                                            case 3:
+                                                $buttonClass = 'btn-outline-warning';
+                                                $text = 'answered';
                                                 break;
-                                            case 'accepted':
-                                                $buttonClass = 'btn-outline-dark'; // To'q yashil rang
+                                            case 4:
+                                                $buttonClass = 'btn-outline-dark';
+                                                $text = 'answered';
                                                 break;
-                                            case 'rejected':
-                                                $buttonClass = 'btn-outline-danger'; // Qizil rang
+                                            case 5:
+                                                $buttonClass = 'btn-outline-danger';
+                                                $text = 'rejected';
                                                 break;
                                             default:
-                                                $buttonClass = 'btn-outline-secondary'; // Kul rang
+                                                $buttonClass = 'btn-outline-secondary';
                                                 break;
                                         }
                                     @endphp
                                 
                                     <button class="btn {{ $buttonClass }}" style="width: 100%; text-align: center; border-width: 2px;">
-                                        {{ ucfirst($status) }}
+                                        {{ ucfirst($text) }}
                                     </button>
                                 </td>
                                 
@@ -343,7 +340,7 @@
                                 <td>
                                     <div>
                                         <form
-                                            action="{{ route('task.delete', $model->regiontasks->where('region_id', $region->id)->first()->id) }}"
+                                            action="{{ route('task.delete', $model->id) }}"
                                             method="POST" class="me-2">
                                             @csrf
                                             @method('DELETE')
@@ -358,7 +355,7 @@
                                         </form>
                                         <button type="button" class="btn btn-warning mt-1"
                                             style="width: 50px; font-size:18px;" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal{{ $model->regiontasks->where('region_id', $region->id)->first()->id }}">
+                                            data-bs-target="#exampleModal{{ $model->id }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                                 <path
@@ -368,7 +365,7 @@
                                     </div>
 
                                     <div class="modal fade"
-                                        id="exampleModal{{ $model->regiontasks->where('region_id', $region->id)->first()->id }}"
+                                        id="exampleModal{{ $model->id }}"
                                         tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -397,31 +394,25 @@
                                                         <div class="mb-3">
                                                             <label for="title" class="form-label">Title</label>
                                                             <input type="text" name="title" class="form-control"
-                                                                id="title" value="{{ $model->title }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="description"
-                                                                class="form-label">Description</label>
-                                                            <input type="text" name="description" class="form-control"
-                                                                id="description" value="{{ $model->description }}">
+                                                                id="title" value="{{ $model->tasks->title }}">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="performer" class="form-label">Performer</label>
                                                             <input type="text" name="performer" class="form-control"
-                                                                id="performer" value="{{ $model->performer }}">
+                                                                id="performer" value="{{ $model->tasks->performer }}">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="file" class="form-label">File</label>
                                                             <input type="file" name="file" id="file"
                                                                 class="form-control">
                                                             <br>
-                                                            @if ($model->file)
+                                                            @if ($model->tasks->file)
                                                                 @php
                                                                     $fileExtension = pathinfo(
-                                                                        $model->file,
+                                                                        $model->tasks->file,
                                                                         PATHINFO_EXTENSION,
                                                                     );
-                                                                    $filePath = $model->file;
+                                                                    $filePath = $model->tasks->file;
                                                                 @endphp
 
                                                                 @if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg']))
@@ -450,16 +441,14 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <div class="form-group">
-                                                                <label for="select22" class="form-label">Multiple</label>
-                                                                <select class="select2" name="region_ids[]"
-                                                                    multiple="multiple" data-placeholder="Select a State"
-                                                                    style="width: 100%;" id="select22">
+                                                                <label for="select" class="form-label">Multiple</label>
+                                                                <select class="form-select" name="region_id"
+                                                                    style="width: 100%;" id="select">
                                                                     @foreach ($areas as $area)
                                                                         <option value="{{ $area->id }}"
-                                                                            @foreach ($regiontasks as $regiontask)
-                                                                            @if ($model->id == $regiontask->task_id && $area->id == $regiontask->region_id)
+                                                                            @if ($model->region_id == $area->id )
                                                                                 selected
-                                                                            @endif @endforeach>
+                                                                            @endif>
                                                                             {{ $area->name }}
                                                                         </option>
                                                                     @endforeach
@@ -479,7 +468,6 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
                     @endforeach
                 </table>
             </div>

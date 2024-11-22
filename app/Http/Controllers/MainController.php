@@ -8,7 +8,7 @@ class MainController extends Controller
 {
     public function index()
     {
-        return view('main.index');
+        return view('main.main');
     }
 
     public function admin()

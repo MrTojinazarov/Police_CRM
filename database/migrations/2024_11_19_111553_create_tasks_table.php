@@ -13,9 +13,8 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-            $table->string('performer'); // ijrochi
+            $table->string('performer');
             $table->string('title');
-            $table->string('description');
             $table->string('file');
             $table->date('deadline');
             $table->timestamps();

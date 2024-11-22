@@ -10,6 +10,8 @@ class RegionTask extends Model
         'region_id',
         'task_id',
         'category_id',
+        'deadline',
+        'status',
     ];
 
     public function regions()

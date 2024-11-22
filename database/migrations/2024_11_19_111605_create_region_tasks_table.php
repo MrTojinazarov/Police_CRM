@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();  
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();  
             $table->date('deadline');
-            $table->string('status')->default('sent');        
+            $table->integer('status')->default(1);        
             $table->timestamps();
         });
     }

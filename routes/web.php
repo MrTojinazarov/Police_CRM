@@ -5,15 +5,21 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserTaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('login', [AuthController::class, 'goLogin'])->name('login.index');
 Route::post('login', [AuthController::class, 'login'])->name('login.page');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::middleware(['check:user'])->group(function () {
 Route::get('/main', [MainController::class, 'index'])->name('main.page');
+Route::get('/myTask', [UserTaskController::class, 'index'])->name('myTask.page');
+Route::put('/region-task/{regionTask}/update-status', [UserTaskController::class, 'updateStatus'])->name('region-task.update-status');
+;
+});
 
-Route::middleware(['admin_role'])->group(function () {
+Route::middleware(['check:admin'])->group(function () {
     Route::get('/', [MainController::class, 'admin'])->name('admin.index');
     Route::get('/users', [AuthController::class, 'index'])->name('users.page');
     Route::post('/users', [AuthController::class, 'store'])->name('user.store');
@@ -33,6 +39,6 @@ Route::middleware(['admin_role'])->group(function () {
     Route::get('/task', [TaskController::class, 'index'])->name('task.page');
     Route::post('/task', [TaskController::class, 'store'])->name('task.store');
     Route::delete('/task/{task}', [TaskController::class, 'destroy'])->name('task.delete');
-    Route::put('/task/{task}', [TaskController::class, 'update'])->name('task.update');
+    Route::put('/task/{regionTask}', [TaskController::class, 'update'])->name('task.update');
 });
 

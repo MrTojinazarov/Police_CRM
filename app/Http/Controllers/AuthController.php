@@ -71,9 +71,12 @@ class AuthController extends Controller
             Auth::login($user);
             if ($user->role == 'admin') {
                 return redirect()->route('admin.index');
-            } else {
+            } elseif($user->role == 'user') {
                 return redirect()->route('main.page');
             }
+            return back()->withErrors([
+                'role' => 'Invalid role.',
+            ]);
         }
     
         return back()->withErrors([
