@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -14,6 +16,10 @@ class AuthController extends Controller
         return view('admin.users', ['models' => $models]);
     }
 
+    public function goLogin()
+    {
+        return view('auth.login');
+    }
 
     public function store(Request $request)
     {
@@ -52,11 +58,39 @@ class AuthController extends Controller
         return redirect()->route('users.page')->with('success', 'User updated successfully');
     }
     
-
+    public function login(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+    
+        $user = User::where('email', $request->email)->first();
+    
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
+            if ($user->role == 'admin') {
+                return redirect()->route('admin.index');
+            } else {
+                return redirect()->route('main.page');
+            }
+        }
+    
+        return back()->withErrors([
+            'email' => 'Invalid credentials.',
+        ]);
+    }
+    
+    
     public function destroy(User $user)
     {
         $user->delete(); 
-        return redirect()->route('users.page')->with('success', 'User muvaffaqiyatli o\'chirildi');
+        return redirect()->route('main.page')->with('success', 'User muvaffaqiyatli o\'chirildi');
     }
     
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login.page');
+    }
 }

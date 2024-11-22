@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Response extends Model
 {
     protected $fillable = [
+        'task_id',
+        'region_id',
         'title',
         'file',
         'note',
@@ -15,11 +17,11 @@ class Response extends Model
 
     public function regions()
     {
-        return $this->belongsTo(Region::class, 'region_id', 'id');
+        return $this->belongsTo(Region::class, 'region_id');
     }
 
     public function tasks()
     {
-        return $this->belongsTo(Task::class, 'task_id', 'id');
+        return $this->belongsTo(Task::class, 'task_id');
     }
 }

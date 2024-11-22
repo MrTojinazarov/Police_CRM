@@ -31,6 +31,7 @@ class User extends Authenticatable
 
     public function regions()
     {
-        return $this->belongsTo(Region::class, 'user_id', 'id');
+        return $this->hasOne(Region::class);
     }
+
 }

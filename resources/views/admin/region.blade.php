@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-12">
-            <h1>Categories</h1>
+            <h1>Regions</h1>
             @if ($errors->any())
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <strong>

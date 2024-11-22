@@ -8,17 +8,23 @@ class RegionTask extends Model
 {
     protected $fillable = [
         'region_id',
-        'task_id'
+        'task_id',
+        'category_id',
     ];
 
     public function regions()
     {
-        return $this->belongsTo(Region::class, 'region_id', 'id');
+        return $this->belongsTo(Region::class, 'region_id');
     }
 
     public function tasks()
     {
-        return $this->belongsToMany(Task::class, 'region_tasks', 'region_id', 'task_id');
+        return $this->belongsTo(Task::class, 'task_id');
+    }
+
+    public function categories()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
     
 }

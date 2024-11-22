@@ -13,6 +13,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('region_id')->constrained('regions')->cascadeOnDelete();          
             $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();  
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();  
+            $table->date('deadline');
             $table->string('status')->default('sent');        
             $table->timestamps();
         });

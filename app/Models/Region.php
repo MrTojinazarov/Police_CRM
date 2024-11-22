@@ -13,12 +13,17 @@ class Region extends Model
 
     public function users()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function regiontasks()
+    {
+        return $this->hasMany(RegionTask::class);
     }
 
     public function responses()
     {
-        return $this->hasMany(Response::class, 'id', 'region_id');
+        return $this->hasMany(Response::class);
     }
 
 }
