@@ -206,7 +206,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="file" class="form-label">File</label>
-                                    <input type="file" name="file" id="file" class="form-control">
+                                    <input type="file" name="file" id="file" class="form-control  custom-file-input">
                                 </div>
                                 <div class="mb-3">
                                     <label for="deadline" class="form-label">Deadline</label>

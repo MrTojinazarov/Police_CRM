@@ -13,10 +13,12 @@ Route::post('login', [AuthController::class, 'login'])->name('login.page');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['check:user'])->group(function () {
-Route::get('/main', [MainController::class, 'index'])->name('main.page');
-Route::get('/myTask', [UserTaskController::class, 'index'])->name('myTask.page');
-Route::put('/region-task/{regionTask}/update-status', [UserTaskController::class, 'updateStatus'])->name('region-task.update-status');
-;
+    Route::get('/main', [MainController::class, 'index'])->name('main.page');
+    Route::get('/myTask', [UserTaskController::class, 'index'])->name('myTask.page');
+    Route::post('task-open/{regionTask}', [UserTaskController::class, 'taskOpen'])->name('tasks.open');
+    Route::post('tasks-do{regionTask}', [UserTaskController::class, 'response'])->name('tasks.do');
+    Route::get('/profile', [AuthController::class, 'userEdit'])->name('profile.edit');
+    Route::put('/profile/{user}', [AuthController::class, 'userUpdate'])->name('profile.update');
 });
 
 Route::middleware(['check:admin'])->group(function () {
@@ -41,4 +43,3 @@ Route::middleware(['check:admin'])->group(function () {
     Route::delete('/task/{task}', [TaskController::class, 'destroy'])->name('task.delete');
     Route::put('/task/{regionTask}', [TaskController::class, 'update'])->name('task.update');
 });
-
