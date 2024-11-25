@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Region;
 use App\Models\RegionTask;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -20,18 +21,28 @@ class MainController extends Controller
         return view('admin.index');
     }
 
-    public function report()
+    public function report(Request $request)
     {
         $categories = Category::all();
+    
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
     
         $reportData = [];
     
         foreach ($categories as $category) {
-            $statusCounts = DB::table('region_tasks')
+            $query = DB::table('region_tasks')
                 ->select('status', DB::raw('COUNT(*) as count'))
-                ->where('category_id', $category->id)
-                ->groupBy('status')
-                ->get();
+                ->where('category_id', $category->id);
+    
+            if ($startDate) {
+                $query->whereDate('created_at', '>=', $startDate);
+            }
+            if ($endDate) {
+                $query->whereDate('created_at', '<=', $endDate);
+            }
+    
+            $statusCounts = $query->groupBy('status')->get();
     
             $reportData[] = [
                 'category' => $category->name,
@@ -40,7 +51,32 @@ class MainController extends Controller
         }
     
         return view('admin.report', [
-            'reportData' => $reportData
+            'reportData' => $reportData,
+        ]);
+    }
+    
+    public function control()
+    {
+        $categories = Category::all(); // Barcha kategoriyalarni olish
+        $regions = Region::all(); // Barcha regionlarni olish
+    
+        $data = []; // Natijani saqlash uchun massiv
+    
+        foreach ($regions as $region) {
+            foreach ($categories as $category) {
+                $taskCount = DB::table('region_tasks')
+                    ->where('region_id', $region->id)
+                    ->where('category_id', $category->id)
+                    ->count(); // Region va kategoriya bo'yicha tasklarni sanash
+    
+                $data[$region->id][$category->id] = $taskCount;
+            }
+        }
+    
+        return view('admin.control', [
+            'categories' => $categories,
+            'regions' => $regions,
+            'data' => $data, // Hisoblangan natijalarni view'ga yuborish
         ]);
     }
     

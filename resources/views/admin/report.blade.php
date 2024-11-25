@@ -7,7 +7,7 @@
     <h1>Report</h1>
     <div class="row">
         <div class="col-12">
-            <form method="GET" action="{{ route('task.page') }}" class="form-inline" id="filterForm">
+            <form method="GET" action="{{ route('report.page') }}" class="form-inline" id="filterForm">
                 <div class="form-group mr-2 mt-2">
                     <label for="start_date" class="mr-2">Start Date:</label>
                     <input type="date" id="start_date" name="start_date" class="form-control" placeholder="yyyy-mm-dd"
