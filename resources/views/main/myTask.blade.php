@@ -87,7 +87,6 @@
                                                         <div class="form-group mb-4">
                                                             <label for="note" class="font-weight-bold">
                                                                 <i class="fas fa-comment-alt mr-2"></i>
-
                                                                 Task Notes
                                                             </label>
                                                             <textarea name="note" id="note" class="form-control" rows="4" required
@@ -101,8 +100,6 @@
                                                             <div class="form-group">
                                                                 <input type="file" name="file"
                                                                     class="form-control" id="file">
-                                                                <label class="custom-file-label" for="file">Choose
-                                                                    file</label>
                                                             </div>
                                                             <small class="form-text text-muted mt-2">
                                                                 <i class="fas fa-info-circle mr-1"></i>

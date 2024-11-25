@@ -99,7 +99,8 @@
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         John Pierce
-                                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                                        <span class="float-right text-sm text-muted"><i
+                                                class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">I got your message bro</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
@@ -174,7 +175,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a href="{{route('admin.index')}}" class="brand-link">
                 <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
@@ -188,7 +189,7 @@
                         <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{Auth::user()->name}}</a>
+                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
@@ -221,23 +222,23 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('logout')}}" class="nav-link">
+                            <a href="{{ route('response.page') }}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-warning"></i>
+                                <p>Response</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('report.page')}}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-info"></i>
+                                <p>Report</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('logout') }}" class="nav-link">
                                 <i class="nav-icon far fa-circle text-danger"></i>
                                 <p class="text">Log out</p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-circle text-warning"></i>
-                                <p>Warning</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon far fa-circle text-info"></i>
-                                <p>Informational</p>
-                            </a>
-                        </li> --}}
                     </ul>
                 </nav>
             </div>
@@ -313,6 +314,11 @@
                 allowClear: true
             });
         });
+    </script>
+    <script>
+        function setAction(action) {
+            document.getElementById('action').value = action;
+        }
     </script>
 </body>
 
