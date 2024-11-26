@@ -3,58 +3,60 @@
 @section('title', 'Tasks')
 
 @section('content')
- 
-        <div class="row">
-        <div class="col-lg-3 col-6">
+
+    <div class="row">
+        <div class="col-lg-2 col-6">
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>150</h3>
-
+                    <h3>{{ $allCount }}</h3>
                     <p>All Tasks</p>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('control.page', ['filter' => 'all']) }}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
+
+        <div class="col-lg-2 col-6">
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                    <p>Two days left</p>
+                    <h3>{{ $twoDaysLeftCount }}</h3>
+                    <p>Two Days Left</p>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('control.page', ['filter' => 'two_days_left']) }}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
+
+        <div class="col-lg-2 col-6">
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>44</h3>
-
-                    <p>One day left</p>
+                    <h3>{{ $oneDayLeftCount }}</h3>
+                    <p>One Day Left</p>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('control.page', ['filter' => 'one_day_left']) }}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
+
+        <div class="col-lg-2 col-6">
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>65</h3>
+                    <h3>{{ $todayCount }}</h3>
+                    <p>Today's Tasks</p>
+                </div>
+                <a href="{{ route('control.page', ['filter' => 'today']) }}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
 
-                    <p>Today's</p>
+        <div class="col-lg-2 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ $overdueCount }}</h3>
+                    <p>Overdue Tasks</p>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('control.page', ['filter' => 'overdue']) }}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
@@ -91,7 +93,7 @@
                     @endforeach
                 </tbody>
             </table>
-                     
+
         </div>
     </div>
 

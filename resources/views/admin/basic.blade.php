@@ -23,6 +23,15 @@
 
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+
+    <style>
+        th.vertical-text {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            text-align: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -222,15 +231,21 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('response.page') }}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-warning"></i>
+                                <p>Response</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{route('control.page')}}" class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
                                 <p>Control</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('response.page') }}" class="nav-link">
-                                <i class="nav-icon far fa-circle text-warning"></i>
-                                <p>Response</p>
+                            <a href="{{route('mainReport.page')}}" class="nav-link">
+                                <i class="nav-icon far fa-circle text-info"></i>
+                                <p>Main Report</p>
                             </a>
                         </li>
                         <li class="nav-item">

@@ -50,4 +50,5 @@ Route::middleware(['check:admin'])->group(function () {
 
     Route::get('/report', [MainController::class, 'report'])->name('report.page');
     Route::get('/control', [MainController::class, 'control'])->name('control.page');
+    Route::get('/mainreport', [MainController::class, 'mainReport'])->name('mainReport.page');
 });
