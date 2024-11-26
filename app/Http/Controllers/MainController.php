@@ -87,7 +87,8 @@ class MainController extends Controller
                 $query->whereDate('deadline', '=', $oneDayLeft);
                 break;
             case 'overdue':
-                $query->whereDate('deadline', '<', $today);
+                $query->whereDate('deadline', '<', $today)
+                      ->whereNotIn('status', [3, 4]);
                 break;
             case 'today':
                 $query->whereDate('deadline', '=', $today);
@@ -116,7 +117,8 @@ class MainController extends Controller
                         $regionCategoryQuery->whereDate('deadline', '=', $oneDayLeft);
                         break;
                     case 'overdue':
-                        $regionCategoryQuery->whereDate('deadline', '<', $today);
+                        $regionCategoryQuery->whereDate('deadline', '<', $today)
+                                            ->whereNotIn('status', [3, 4]);
                         break;
                     case 'today':
                         $regionCategoryQuery->whereDate('deadline', '=', $today);
@@ -134,7 +136,9 @@ class MainController extends Controller
         $allCount = RegionTask::count();
         $twoDaysLeftCount = RegionTask::whereDate('deadline', '=', $twoDaysLeft)->count();
         $oneDayLeftCount = RegionTask::whereDate('deadline', '=', $oneDayLeft)->count();
-        $overdueCount = RegionTask::whereDate('deadline', '<', $today)->count();
+        $overdueCount = RegionTask::whereDate('deadline', '<', $today)
+                                 ->whereNotIn('status', [3, 4])
+                                 ->count();
         $todayCount = RegionTask::whereDate('deadline', '=', $today)->count();
     
         return view('admin.control', [
@@ -150,7 +154,6 @@ class MainController extends Controller
         ]);
     }
     
-
     public function mainReport()
     {
         $categories = Category::all();

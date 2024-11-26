@@ -17,22 +17,18 @@ class TaskController extends Controller
     {
         $today = Carbon::today();
         $filter = $request->query('filter', 'all');
-    
         $start_date = $request->query('start_date');
         $end_date = $request->query('end_date');
-    
-        $region_id = $request->query('region_id');
-        $category_id = $request->query('category_id');
-    
+        
         $categories = Category::all();
         $regions = Region::all();
         $regiontasks = RegionTask::all();
-    
+        
+        $regionTask_id = $request->query('regionTask_id');
         $query = RegionTask::query();
     
-        if ($region_id && $category_id) {
-            $query->where('region_id', $region_id)
-                  ->where('category_id', $category_id);
+        if (isset($regionTask_id)) {
+            $query->where('id', $regionTask_id);
         }
     
         if ($start_date && $end_date) {
@@ -40,21 +36,22 @@ class TaskController extends Controller
         } else {
             switch ($filter) {
                 case 'two_days_left':
-                    $query->whereDate('deadline', '=', $today->copy()->addDay(2));
+                    $query->whereDate('deadline', '=', $today->copy()->addDays(2));
                     break;
-        
+    
                 case 'one_day_left':
                     $query->whereDate('deadline', '=', $today->copy()->addDay(1));
                     break;
-        
-                case 'overdue':
-                    $query->whereDate('deadline', '<', $today);
-                    break;
-        
+    
                 case 'today':
                     $query->whereDate('deadline', '=', $today);
                     break;
-        
+    
+                case 'overdue':
+                    $query->whereDate('deadline', '<', $today)
+                          ->whereNotIn('status', [3, 4]);
+                    break;
+    
                 default:
                     break;
             }
@@ -62,10 +59,12 @@ class TaskController extends Controller
     
         $models = $query->orderBy('id', 'ASC')->paginate(10);
     
-        $allCount = RegionTask::all()->count();
+        $allCount = RegionTask::count();
         $twoDaysLeftCount = RegionTask::whereDate('deadline', $today->copy()->addDays(2))->count();
         $oneDayLeftCount = RegionTask::whereDate('deadline', $today->copy()->addDay(1))->count();
-        $overdueCount = RegionTask::whereDate('deadline', '<', $today)->count();
+        $overdueCount = RegionTask::whereDate('deadline', '<', $today)
+                                  ->whereNotIn('status', [3, 4])
+                                  ->count();
         $rejectedCount = RegionTask::where('status', 5)->count();
         $todayCount = RegionTask::whereDate('deadline', $today)->count();
     

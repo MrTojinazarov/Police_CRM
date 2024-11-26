@@ -241,7 +241,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('control.page')}}" class="nav-link">
+                            <a href="{{route('control.page', ['filter' => 'all'])}}" class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
                                 <p>Control</p>
                             </a>

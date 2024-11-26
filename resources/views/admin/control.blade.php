@@ -63,32 +63,34 @@
                 </thead>
                 <tbody>
                     @foreach ($regions as $region)
-                        <tr>
-                            <th>{{ $region->name }}</th>
-                            @foreach ($categories as $category)
-                                <td>
-                                    @if (($data[$region->id][$category->id] ?? 0) > 0)
-                                        <form action="{{ route('task.page') }}" method="GET">
-                                            <input type="hidden" name="region_id" value="{{ $region->id }}">
-                                            <input type="hidden" name="category_id" value="{{ $category->id }}">
-
-                                            <button type="submit" 
-                                                class="btn 
-                                                @if(request('filter') == 'all') bg-info text-white
-                                                @elseif(request('filter') == 'two_days_left') bg-success text-white
-                                                @elseif(request('filter') == 'one_day_left') bg-warning text-dark
-                                                @elseif(request('filter') == 'today') bg-danger text-white
-                                                @elseif(request('filter') == 'overdue') bg-dark text-white
-                                                @else bg-primary text-white
-                                                @endif">
-                                                {{ $data[$region->id][$category->id] }}
-                                            </button>
-                                        </form>
-                                    @endif
-                                </td>
-                            @endforeach
-                        </tr>
-                    @endforeach
+                    <tr>
+                        <th>{{ $region->name }}</th>
+                        @foreach ($categories as $category)
+                            <td>
+                                @if (($data[$region->id][$category->id] ?? 0) > 0)
+                                    <form action="{{ route('task.page') }}" method="GET">
+                                        @foreach ($tasks as $task)
+                                            @if ($task->region_id == $region->id && $task->category_id == $category->id)
+                                                <input type="hidden" name="regionTask_id" value="{{ $task->id }}">
+                                                <button type="submit" class="btn 
+                                                    @if(request('filter') == 'all') bg-info text-white
+                                                    @elseif(request('filter') == 'two_days_left') bg-success text-white
+                                                    @elseif(request('filter') == 'one_day_left') bg-warning text-dark
+                                                    @elseif(request('filter') == 'today') bg-danger text-white
+                                                    @elseif(request('filter') == 'overdue') bg-dark text-white
+                                                    @else bg-primary text-white
+                                                    @endif">
+                                                    {{ $data[$region->id][$category->id] }}
+                                                </button>
+                                            @endif
+                                        @endforeach
+                                    </form>
+                                @endif
+                            </td>
+                        @endforeach
+                    </tr>
+                @endforeach
+                
                 </tbody>
             </table>
         </div>
