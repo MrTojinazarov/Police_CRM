@@ -31,7 +31,11 @@
             text-align: center;
             justify-content: center;
         }
+        .d-flex {
+            gap: 20px;
+        }
     </style>
+    
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

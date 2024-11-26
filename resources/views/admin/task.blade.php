@@ -4,68 +4,55 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-2 col-6">
-            <div class="small-box bg-info">
-                <div class="inner">
-                    <h3>{{ $allCount }}</h3>
-                    <p>All Tasks</p>
+        <div class="col-12">
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="small-box bg-info" style="flex: 1 1 180px; height: auto;">
+                    <div class="inner">
+                        <h3>{{ $allCount }}</h3>
+                        <p>All Tasks</p>
+                    </div>
+                    <a href="{{ route('task.page', ['filter' => 'all']) }}" class="small-box-footer">More info <i
+                            class="fas fa-arrow-circle-right"></i></a>
                 </div>
-                <a href="{{ route('task.page', ['filter' => 'all']) }}" class="small-box-footer">More info <i
-                        class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-2 col-6">
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>{{ $twoDaysLeftCount }}</h3>
-                    <p>Two days left</p>
+
+                <div class="small-box bg-success" style="flex: 1 1 180px; height: auto;">
+                    <div class="inner">
+                        <h3>{{ $twoDaysLeftCount }}</h3>
+                        <p>Two Days Left</p>
+                    </div>
+                    <a href="{{ route('task.page', ['filter' => 'two_days_left']) }}" class="small-box-footer">More info <i
+                            class="fas fa-arrow-circle-right"></i></a>
                 </div>
-                <a href="{{ route('task.page', ['filter' => 'two_days_left']) }}" class="small-box-footer">More info <i
-                        class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-2 col-6">
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>{{ $oneDayLeftCount }}</h3>
-                    <p>One day left</p>
+
+                <div class="small-box bg-warning" style="flex: 1 1 180px; height: auto;">
+                    <div class="inner">
+                        <h3>{{ $oneDayLeftCount }}</h3>
+                        <p>One Day Left</p>
+                    </div>
+                    <a href="{{ route('task.page', ['filter' => 'one_day_left']) }}" class="small-box-footer">More info <i
+                            class="fas fa-arrow-circle-right"></i></a>
                 </div>
-                <a href="{{ route('task.page', ['filter' => 'one_day_left']) }}" class="small-box-footer">More info <i
-                        class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-2 col-6">
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>{{ $todayCount }}</h3>
-                    <p>Today's</p>
+
+                <div class="small-box bg-danger" style="flex: 1 1 180px; height: auto;">
+                    <div class="inner">
+                        <h3>{{ $todayCount }}</h3>
+                        <p>Today's Tasks</p>
+                    </div>
+                    <a href="{{ route('task.page', ['filter' => 'today']) }}" class="small-box-footer">More info <i
+                            class="fas fa-arrow-circle-right"></i></a>
                 </div>
-                <a href="{{ route('task.page', ['filter' => 'today']) }}" class="small-box-footer">More info <i
-                        class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-2 col-6">
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>{{ $overdueCount }}</h3>
-                    <p>Overdue</p>
+
+                <div class="small-box bg-dark" style="flex: 1 1 180px; height: auto;">
+                    <div class="inner">
+                        <h3>{{ $overdueCount }}</h3>
+                        <p>Overdue Tasks</p>
+                    </div>
+                    <a href="{{ route('task.page', ['filter' => 'overdue']) }}" class="small-box-footer">More info <i
+                            class="fas fa-arrow-circle-right"></i></a>
                 </div>
-                <a href="{{ route('task.page', ['filter' => 'overdue']) }}" class="small-box-footer">More info <i
-                        class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-2 col-6">
-            <div class="small-box bg-danger">
-                <div class="inner">
-                    <h3>{{ $rejectedCount }}</h3>
-                    <p>Rejected</p>
-                </div>
-                <a href="{{ route('task.page', ['filter' => 'rejected']) }}" class="small-box-footer">More info <i
-                        class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
     </div>
-
 
     <div class="row">
         <div class="col-12">
@@ -125,8 +112,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="file" class="form-label">File</label>
-                                    <input type="file" name="file" id="file"
-                                        class="form-control">
+                                    <input type="file" name="file" id="file" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label for="deadline" class="form-label">Deadline</label>
@@ -178,17 +164,17 @@
             <div class="mt-3">
                 <table class="table table-hover table-bordered">
                     <thead class="thead-dark">
-                    <tr>
-                        <th style="width: 20px;">ID</th>
-                        <th style="width: 120px;">Region</th>
-                        <th style="width: 150px;">Performer</th>
-                        <th style="width: 150px;">Title</th>
-                        <th style="width: 200px;">File</th>
-                        <th style="width: 120px">Time sent</th>
-                        <th style="width: 120px;">Deadline</th>
-                        <th style="width: 130px">Status</th>
-                        <th style="width: 70px;">Actions</th>
-                    </tr>
+                        <tr>
+                            <th style="width: 20px;">ID</th>
+                            <th style="width: 120px;">Region</th>
+                            <th style="width: 150px;">Performer</th>
+                            <th style="width: 150px;">Title</th>
+                            <th style="width: 200px;">File</th>
+                            <th style="width: 120px">Time sent</th>
+                            <th style="width: 120px;">Deadline</th>
+                            <th style="width: 130px">Status</th>
+                            <th style="width: 70px;">Actions</th>
+                        </tr>
                     </thead>
                     @foreach ($models as $model)
                         <tr>
@@ -228,22 +214,26 @@
                                         <span>Sent</span>
                                     </button>
                                 @elseif ($model->status == 2)
-                                    <button type="button" class="btn btn-outline-success btn-action disabled" style="width: 120px">
+                                    <button type="button" class="btn btn-outline-success btn-action disabled"
+                                        style="width: 120px">
                                         <i class="fas fa-check-circle mr-1"></i>
                                         <span>Opened</span>
                                     </button>
                                 @elseif ($model->status == 4)
-                                    <button type="button" class="btn btn-outline-success btn-action disabled" style="width: 120px">
+                                    <button type="button" class="btn btn-outline-success btn-action disabled"
+                                        style="width: 120px">
                                         <i class="fas fa-check-circle mr-1"></i>
                                         <span>Approved</span>
                                     </button>
                                 @elseif ($model->status == 5)
-                                    <button type="button" class="btn btn-outline-warning btn-action disabled" style="width: 120px">
+                                    <button type="button" class="btn btn-outline-warning btn-action disabled"
+                                        style="width: 120px">
                                         <i class="fas fa-times-circle mr-1"></i>
                                         <span>Rejected</span>
                                     </button>
                                 @else
-                                    <button type="button" class="btn btn-outline-warning btn-action" style="width: 120px">
+                                    <button type="button" class="btn btn-outline-warning btn-action"
+                                        style="width: 120px">
                                         <i class="fas fa-play-circle mr-1"></i>
                                         <span>Answered</span>
                                     </button>

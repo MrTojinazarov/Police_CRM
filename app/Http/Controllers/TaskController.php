@@ -51,10 +51,6 @@ class TaskController extends Controller
                     $query->whereDate('deadline', '<', $today);
                     break;
         
-                case 'rejected':
-                    $query->where('status', 5);
-                    break;
-        
                 case 'today':
                     $query->whereDate('deadline', '=', $today);
                     break;
