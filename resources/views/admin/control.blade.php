@@ -11,8 +11,7 @@
                         <h3>{{ $allCount }}</h3>
                         <p>All Tasks</p>
                     </div>
-                    <a href="{{ route('control.page', ['filter' => 'all']) }}" class="small-box-footer">More info <i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('control.page', ['filter' => 'all']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
 
                 <div class="small-box bg-success" style="flex: 1; min-width: 180px; height: auto;">
@@ -20,8 +19,7 @@
                         <h3>{{ $twoDaysLeftCount }}</h3>
                         <p>Two Days Left</p>
                     </div>
-                    <a href="{{ route('control.page', ['filter' => 'two_days_left']) }}" class="small-box-footer">More info
-                        <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('control.page', ['filter' => 'two_days_left']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
 
                 <div class="small-box bg-warning" style="flex: 1; min-width: 180px; height: auto;">
@@ -29,8 +27,7 @@
                         <h3>{{ $oneDayLeftCount }}</h3>
                         <p>One Day Left</p>
                     </div>
-                    <a href="{{ route('control.page', ['filter' => 'one_day_left']) }}" class="small-box-footer">More info
-                        <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('control.page', ['filter' => 'one_day_left']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
 
                 <div class="small-box bg-danger" style="flex: 1; min-width: 180px; height: auto;">
@@ -38,8 +35,7 @@
                         <h3>{{ $todayCount }}</h3>
                         <p>Today's Tasks</p>
                     </div>
-                    <a href="{{ route('control.page', ['filter' => 'today']) }}" class="small-box-footer">More info <i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('control.page', ['filter' => 'today']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
 
                 <div class="small-box bg-dark" style="flex: 1; min-width: 180px; height: auto;">
@@ -47,13 +43,11 @@
                         <h3>{{ $overdueCount }}</h3>
                         <p>Overdue Tasks</p>
                     </div>
-                    <a href="{{ route('control.page', ['filter' => 'overdue']) }}" class="small-box-footer">More info <i
-                            class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('control.page', ['filter' => 'overdue']) }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="row">
         <h1>Control</h1>
@@ -77,7 +71,16 @@
                                         <form action="{{ route('task.page') }}" method="GET">
                                             <input type="hidden" name="region_id" value="{{ $region->id }}">
                                             <input type="hidden" name="category_id" value="{{ $category->id }}">
-                                            <button type="submit" class="btn btn-primary">
+
+                                            <button type="submit" 
+                                                class="btn 
+                                                @if(request('filter') == 'all') bg-info text-white
+                                                @elseif(request('filter') == 'two_days_left') bg-success text-white
+                                                @elseif(request('filter') == 'one_day_left') bg-warning text-dark
+                                                @elseif(request('filter') == 'today') bg-danger text-white
+                                                @elseif(request('filter') == 'overdue') bg-dark text-white
+                                                @else bg-primary text-white
+                                                @endif">
                                                 {{ $data[$region->id][$category->id] }}
                                             </button>
                                         </form>
@@ -88,9 +91,6 @@
                     @endforeach
                 </tbody>
             </table>
-
         </div>
     </div>
-
-
 @endsection

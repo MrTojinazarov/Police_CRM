@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Region;
 use App\Models\RegionTask;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
