@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,13 +22,9 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function store(Request $request)
+    public function store(AuthRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|min:3',
-        ]);
+        $data = $request->validated();
 
         $data['password'] = bcrypt($data['password']);
         User::create($data);
@@ -35,15 +32,10 @@ class AuthController extends Controller
         return redirect()->route('users.page')->with('success', 'User muvaffaqiyatli yaratildi');
     }
 
-    public function update(Request $request, User $user)
+    public function update(AuthRequest $request, User $user)
     {
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'role' => 'nullable|string|max:255',
-            'password' => 'nullable|string|min:6|confirmed',
-        ]);
+        $data = $request->validated();
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');

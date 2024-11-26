@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -14,12 +15,9 @@ class CategoryController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
+        $data = $request->validated();
         Category::create($data);
         
         return redirect()->route('category.page')->with('success', 'Category muvaffaqiyatli yaratildi');
@@ -28,9 +26,7 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
     
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        $data = $request->validated();
     
         $category->name = $request->input('name');
 

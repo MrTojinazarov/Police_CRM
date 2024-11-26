@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskRequest;
 use App\Models\Category;
 use App\Models\Region;
 use App\Models\RegionTask;
@@ -87,16 +88,9 @@ class TaskController extends Controller
     }
     
 
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string|max:255',
-            'performer' => 'required|string|max:255',
-            'file' => 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,pdf,docx|max:20480',
-            'deadline' => 'required|date',
-            'region_ids' => 'required|array|exists:regions,id',
-        ]);
+        $data = $request->validated();
 
         $filePath = null;
         if ($request->hasFile('file')) {
@@ -143,16 +137,9 @@ class TaskController extends Controller
         return redirect()->back()->with('success', 'Task successfully created!');
     }
 
-    public function update(Request $request, RegionTask $regionTask)
+    public function update(TaskRequest $request, RegionTask $regionTask)
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string|max:255',
-            'performer' => 'required|string|max:255',
-            'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,pdf,docx|max:20480',
-            'deadline' => 'required|date',
-            'region_id' => 'required|exists:regions,id',
-        ]);
+        $data = $request->validated();
 
         $filePath = $regionTask->tasks->file;
         if ($request->hasFile('file')) {
