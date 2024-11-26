@@ -48,8 +48,8 @@
                                     <label for="user" class="form-label">User</label>
                                     <select class="form-control" name="user_id" id="user">
                                         <option value="">Choose</option>
-                                        @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @foreach ($ntusers as $ntuser)
+                                            <option value="{{ $ntuser->id }}">{{ $ntuser->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

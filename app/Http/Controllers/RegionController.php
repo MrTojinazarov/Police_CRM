@@ -12,10 +12,10 @@ class RegionController extends Controller
     public function index()
     {
         $models = Region::orderBy('id', 'ASC')->paginate(10);
-        
-        $users = User::doesntHave('regions')->get();
+        $users = User::all();
+        $ntusers = User::doesntHave('regions')->get();
     
-        return view('admin.region', ['models' => $models, 'users' => $users]);
+        return view('admin.region', ['models' => $models, 'users' => $users, 'ntusers' => $ntusers]);
     }
     
 
