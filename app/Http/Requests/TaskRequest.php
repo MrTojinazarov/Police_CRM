@@ -14,14 +14,21 @@ class TaskRequest extends FormRequest
 
     public function rules()
     {
-        return [
+        $rules = [
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'performer' => 'required|string|max:255',
-            'file' => 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,pdf,docx|max:20480',
             'deadline' => 'required|date',
             'region_ids' => 'required|array|exists:regions,id',
         ];
+
+        if (request()->isMethod('post')) {
+            $rules['file'] = 'required|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,pdf,docx|max:20480';
+        } elseif (request()->isMethod('put')) {
+            $rules['file'] = 'nullable|file|mimes:jpeg,png,jpg,gif,mp4,mov,avi,pdf,docx|max:20480';
+        }
+
+        return $rules;
     }
 
     public function messages()
@@ -45,5 +52,4 @@ class TaskRequest extends FormRequest
             'region_ids.exists' => 'Tanlangan hududlar mavjud emas.',
         ];
     }
-
 }
